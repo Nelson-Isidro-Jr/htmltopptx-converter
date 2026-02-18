@@ -517,6 +517,11 @@ def sitemap_xml():
     return Response(content, mimetype='application/xml')
 
 
+@app.route('/google9f1c56ac4fb41a96.html')
+def google_verification():
+    return Response('google-site-verification: google9f1c56ac4fb41a96.html', mimetype='text/plain')
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     debug = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
