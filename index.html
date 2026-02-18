@@ -642,17 +642,10 @@
     const API_URL = '/api';
 
     function CoffeePopup() {
-      const [visible, setVisible] = useState(false);
-
-      useEffect(() => {
-        if (!sessionStorage.getItem('coffee_dismissed')) {
-          setVisible(true);
-        }
-      }, []);
+      const [visible, setVisible] = useState(true);
 
       const dismiss = () => {
         setVisible(false);
-        sessionStorage.setItem('coffee_dismissed', '1');
       };
 
       if (!visible) return null;
@@ -988,7 +981,6 @@
               </div>
             </div>
 
-          </div>
             {/* Right Column - Editable Code Preview */}
             <div className="card">
               <div className="card-title">
@@ -1100,6 +1092,8 @@
                 </label>
               </div>
             </div>
+          </div>
+
           {/* Slides Section - Presentation 1 */}
           <div className="card" style={{ marginBottom: '20px' }}>
             <div className="card-title">
