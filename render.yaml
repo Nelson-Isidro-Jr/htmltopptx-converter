@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: htmltopptx-converter
+    runtime: docker
+    plan: free
+    envVars:
+      - key: ALLOWED_ORIGIN
+        value: https://htmltopptx-converter.com
+      - key: DOMAIN
+        value: https://htmltopptx-converter.com
+      - key: PORT
+        value: "10000"
+      - key: FLASK_DEBUG
+        value: "false"

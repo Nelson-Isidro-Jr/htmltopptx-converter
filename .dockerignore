@@ -1,0 +1,6 @@
+__pycache__
+*.pyc
+.git
+*.md
+start.sh
+start.bat
