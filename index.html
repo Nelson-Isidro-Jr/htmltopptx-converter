@@ -946,8 +946,8 @@
           </div>
 
           {/* Two Column Layout for Input, Text Extraction, and Preview */}
-          <div className="main-grid" style={{ marginBottom: '20px' }}>
-            {/* Left Column - Normal HTML Input (Editable) */}
+          <div className="main-grid" style={{ marginBottom: '20px', gridTemplateColumns: '1fr' }}>
+            {/* Normal HTML Input (Editable) */}
             <div className="card">
               <div className="card-title">
                 <span>✏️</span> Normal HTML Input (Editable)
@@ -981,7 +981,7 @@
               </div>
             </div>
 
-            {/* Right Column - Editable Code Preview */}
+            {/* Editable Code Preview - Below HTML Input */}
             <div className="card">
               <div className="card-title">
                 <span>👁️</span> Editable Code Preview
