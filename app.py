@@ -490,7 +490,7 @@ def serve_index():
     return send_from_directory('.', 'index.html')
 
 
-DOMAIN = os.environ.get('DOMAIN', 'https://htmltopptx-converter.com')
+DOMAIN = os.environ.get('DOMAIN', 'https://htmltopptx-converter.onrender.com')
 
 
 @app.route('/robots.txt')
