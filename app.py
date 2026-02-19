@@ -522,6 +522,97 @@ def google_verification():
     return Response('google-site-verification: google9f1c56ac4fb41a96.html', mimetype='text/plain')
 
 
+@app.route('/logo.png')
+def serve_logo():
+    """Serve the site logo for Open Graph and search engines."""
+    # Create a 1200x630 logo image for Open Graph (recommended size for social media)
+    from PIL import Image, ImageDraw, ImageFont
+    
+    # Create image with dark background matching site theme
+    width, height = 1200, 630
+    img = Image.new('RGB', (width, height), '#0a0e14')
+    draw = ImageDraw.Draw(img)
+    
+    # Draw gradient background rectangle
+    for i in range(width):
+        # Gradient from #00ff88 to #00aaff
+        r = int(0 + (0 - 0) * i / width)
+        g = int(255 + (170 - 255) * i / width)
+        b = int(136 + (255 - 136) * i / width)
+        draw.line([(i, 0), (i, 10)], fill=(r, g, b))
+    
+    # Draw rounded rectangle background
+    rect_margin = 50
+    draw.rounded_rectangle(
+        [rect_margin, rect_margin + 100, width - rect_margin, height - rect_margin - 100],
+        radius=30,
+        fill='#14181f',
+        outline='#30363d',
+        width=2
+    )
+    
+    # Try to use a font, fall back to default if not available
+    try:
+        title_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 72)
+        subtitle_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 32)
+    except:
+        try:
+            title_font = ImageFont.truetype("arial.ttf", 72)
+            subtitle_font = ImageFont.truetype("arial.ttf", 32)
+        except:
+            title_font = ImageFont.load_default()
+            subtitle_font = ImageFont.load_default()
+    
+    # Draw title text with gradient color
+    title = "HTML to PPTX"
+    subtitle = "CONVERTER"
+    tagline = "Free Online HTML to PowerPoint Tool"
+    
+    # Calculate text positions for centering
+    title_bbox = draw.textbbox((0, 0), title, font=title_font)
+    title_width = title_bbox[2] - title_bbox[0]
+    title_x = (width - title_width) // 2
+    title_y = 180
+    
+    # Draw title with gradient-like effect (simulated with color)
+    draw.text((title_x, title_y), title, font=title_font, fill='#00ff88')
+    
+    # Draw subtitle
+    subtitle_bbox = draw.textbbox((0, 0), subtitle, font=subtitle_font)
+    subtitle_width = subtitle_bbox[2] - subtitle_bbox[0]
+    subtitle_x = (width - subtitle_width) // 2
+    draw.text((subtitle_x, title_y + 90), subtitle, font=subtitle_font, fill='#00aaff')
+    
+    # Draw tagline
+    tagline_bbox = draw.textbbox((0, 0), tagline, font=subtitle_font)
+    tagline_width = tagline_bbox[2] - tagline_bbox[0]
+    tagline_x = (width - tagline_width) // 2
+    draw.text((tagline_x, title_y + 180), tagline, font=subtitle_font, fill='#8b949e')
+    
+    # Draw decorative elements (HTML and PPTX icons)
+    # HTML icon (left side)
+    html_x, html_y = 150, 280
+    draw.rounded_rectangle([html_x, html_y, html_x + 100, html_y + 120], radius=15, fill='#00ff88', outline='#00cc6a', width=2)
+    draw.text((html_x + 15, html_y + 35), "HTML", font=subtitle_font, fill='#0a0e14')
+    
+    # Arrow in middle
+    arrow_x = width // 2 - 40
+    arrow_y = 320
+    draw.polygon([(arrow_x, arrow_y), (arrow_x + 80, arrow_y + 30), (arrow_x, arrow_y + 60)], fill='#00aaff')
+    
+    # PPTX icon (right side)
+    pptx_x, pptx_y = width - 250, 280
+    draw.rounded_rectangle([pptx_x, pptx_y, pptx_x + 100, pptx_y + 120], radius=15, fill='#00aaff', outline='#0088cc', width=2)
+    draw.text((pptx_x + 8, pptx_y + 35), "PPTX", font=subtitle_font, fill='#0a0e14')
+    
+    # Save to bytes
+    output = BytesIO()
+    img.save(output, format='PNG', optimize=True)
+    output.seek(0)
+    
+    return send_file(output, mimetype='image/png')
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     debug = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
